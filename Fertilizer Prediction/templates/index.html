@@ -1,0 +1,281 @@
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fertilizer Recommendation System</title>
+</head>
+<body>
+
+    <h1>Fertilizer Recommendation System</h1>
+
+    <form method="post" action="/predict">
+         <label>Temperature</label><br>
+        <input type="text" name="Temperature"><br><br>
+
+        <label>Humidity</label><br>
+        <input type="text" name="Humidity"><br><br>
+
+        <label>Moisture</label><br>
+        <input type="text" name="Moisture"><br><br>
+
+        <label>Soil Type</label><br>
+         <select name="soil_type" id="soil_type">
+            <option value="0">Black</option>
+            <option value="1">Clayey</option>
+            <option value="2">Loamy</option>
+            <option value="3">Red</option>
+            <option value="4">Sandy</option>
+         </select><br><br>
+
+        <label>Crop Type</label><br>
+        <select name="crop_type" id="crop_type">
+            <option value="0">Barley</option>
+            <option value="1">Cotton</option>
+            <option value="2">Ground Nuts</option>
+            <option value="3">Maize</option>
+            <option value="4">Millets</option>
+            <option value="5">Oil Seeds</option>
+            <option value="6">Paddy</option>
+            <option value="7">Pulses</option>
+            <option value="8">Sugarcane</option>
+            <option value="9">Tobacco</option>
+            <option value="10">Wheat</option>
+        </select><br><br>
+
+        <label>Nitrogen</label><br>
+        <input type="text" name="Nitrogen"><br><br>
+
+        <label>Potassium</label><br>
+        <input type="text" name="Potassium"><br><br>
+
+        <label>Phosphorous</label><br>
+        <input type="text" name="Phosphorous"><br><br>
+
+
+
+        <input type="submit" value="Predict"><br><br>
+
+        {% if result %}
+        <p>{{ result }}</p>
+    {% endif %}
+    </form>
+
+</body>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="Favicon/AgriHelper favicon.png" type="image/x-icon">
+    <title>AgriHelper</title>
+</head>
+
+<body>
+
+    <style>
+        body {
+            margin: 0;
+            background-color: #fff;
+        }
+        .navbar {
+            background: #a0e418;
+            padding: 25px 40px;
+        }
+        .nav-link:hover {
+            color: #e5f9bd !important;
+        }
+        .nav-menu {
+            float: right;
+        }
+        .nav-brand {
+            color: #525050;
+            font-weight: bold;
+            font-size: x-large;
+        }
+        .nav-item {
+            padding: 0 10px;
+            color: #525050;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .body{
+            color: #525050;
+            width: 90%;
+            margin: auto;
+            padding: 20px 0;
+        }
+        .container{
+            width: 70%;
+            margin-left: 0;
+            display: grid;
+            row-gap: 50px;
+            grid-template-columns: auto auto auto auto;
+        }
+        .item1{
+            grid-column: 1/3;
+        }
+        .item2{
+            grid-column: 3/5;
+        }
+        .result{
+            padding: 10px;
+            margin-left: 400px;
+            font-size: 30px;
+            grid-column-start: 1;
+            grid-column-end: 5;
+
+        }
+        a{
+            text-decoration: none;
+            font-size: large;
+        }
+        a:hover{
+            color: #000;
+        }
+        label{
+            font-weight: bold;
+        }
+        select{
+            width: 80%;
+            height: 80%;
+        }
+        input[type="submit"]{
+            color: #fff;
+            background-color: #6b980f;
+            padding: 5% 8%;
+            border-style: none;
+        }
+
+        footer {
+            clear: both;
+            margin-top: 100px;
+            background-color: #45630a;
+            color: #fff;
+            text-align: center;
+            padding: 1.5% 0 1% 0;
+        }
+
+        @media screen and (max-width: 600px){
+            .container{
+                width: 70%;
+                row-gap: 30px;
+         }
+            .item3{
+                grid-column: 1/5;
+            }
+            .item4{
+                grid-column: 1/5;
+            }
+            .item5{
+                grid-column: 1/5;
+            }
+        }
+
+    </style>
+    <!-- ----- Navbar ----- -->
+    <nav class="nav navbar">
+        <div>
+            <a class="nav-brand" href="#">AgriHelper</a>
+            <div class="nav-menu">
+                <a class="nav-item nav-link" aria-current="page" href="http://localhost:3000/">Home</a>
+                <a class="nav-item nav-link" href="http://localhost:3000/#abt">About</a>
+                <a class="nav-item nav-link" href="http://127.0.0.1:5001">Fertilizer Predictor</a>
+                <a class="nav-item nav-link" href="http://127.0.0.1:5000">Crop prediction</a>
+                <a class="nav-item nav-link" href="http://localhost:3000/login">Queries</a>
+            </div>
+        </div>
+    </nav>
+    <div class="body">
+        <h2>Fertilizer Prediction</h2>
+        <p><b>Note:</b><br>
+            Based on Your Soil Testing, Enter the Percentage of Nutrients in your Soil. <br>
+            To do the Soil testing, You can go to your nearby soil testing laborateries.
+            <a href="https://farmer.gov.in/stl.aspx" target="_blank">see here</a>
+        </p>
+        <hr><br>
+        <div>
+            <form method="post" action="/predict">
+                <div class="container">
+                    <div class="item1">
+                        <label for="crop">Crop</label><br>
+                        <select name="crop_type" id="crop_type">
+                            <option value="" selected disabled>Select Your Crop</option>
+                            <option value="0">Barley</option>
+                            <option value="1">Cotton</option>
+                            <option value="2">Ground nuts</option>
+                            <option value="3">Maize</option>
+                            <option value="4">Millets</option>
+                            <option value="5">Oil seeds</option>
+                            <option value="6">Paddy</option>
+                            <option value="7">Pulses</option>
+                            <option value="8">Sugarcane</option>
+                            <option value="9">Tobacco</option>
+                            <option value="10">Wheat</option>
+                        </select>
+                    </div>
+                    <div class="item2">
+                        <label for="soil">Soil type</label><br>
+                        <select name="soil_type" id="soil_type">
+                            <option value="" selected disabled>Select the Soil type</option>
+                            <option value="0">Black</option>
+                            <option value="1">Clayey</option>
+                            <option value="2">Loamy</option>
+                            <option value="3">Red</option>
+                            <option value="4">Sandy</option>
+                        </select>
+                    </div>
+                    <div class="item3">
+                        <label for="nit">Nitrogen</label><br>
+                        <input type="range" id="nit" name="Nitrogen" min="0" max="50" value="25"
+                            oninput="rangeValue1.innerText = this.value">
+                        <p id="rangeValue1">25</p>
+                    </div>
+                    <div class="item4">
+                        <label for="php">Phosphorus</label><br>
+                        <input type="range" id="php" name="Phosphorous" min="0" max="50" value="25"
+                            oninput="rangeValue2.innerText = this.value">
+                        <p id="rangeValue2">25</p>
+                    </div>
+                    <div class="item5">
+                        <label for="pot">Potassium</label><br>
+                        <input type="range" id="pot" name="Potassium" min="0" max="50" value="25"
+                            oninput="rangeValue3.innerText = this.value">
+                        <p id="rangeValue3">25</p>
+                    </div>
+                    <div></div>
+                    <div class="item6">
+                        <label>Temperature</label><br>
+                        <input type="text" name="Temperature">
+                    </div>
+                    <div class="item7">
+                        <label>Humidity</label><br>
+                        <input type="text" name="Humidity">
+                    </div>
+                    <div class="item8">
+                        <label>Moisture</label><br>
+                        <input type="text" name="Moisture">
+                    </div>
+                    <div></div>
+                    <div>
+                        <input type="submit" value="Find Fertilizer">
+                    </div>
+                </div>
+                {% if result %}
+                <b><p class="result">{{ result }}</p></b>
+                    {% endif %}
+            </form>
+        </div>
+    </div>
+</body>
+<footer>
+    <p>Software Project Team</p>
+    <p>Copyright 2022, All Rights Reserved</p>
+</footer>
+
+</html>
