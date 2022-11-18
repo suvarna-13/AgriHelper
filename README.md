@@ -8,3 +8,5 @@
  5. create html file in templates folder
  6. Run the app and click http://127.0.0.1:5001/
  
+ Change the port for running different flask applications simultaneously
+ 
