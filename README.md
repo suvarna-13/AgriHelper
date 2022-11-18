@@ -1,5 +1,8 @@
 # AgriHelper
 
+For Plant Disease Detection the model cannot be uploaded as it exceeds the limit of file size
+Run the Plant-Disease-Detection.ipynb file and save the model in you local computer.
+
 ## To run flask application
  1. Install flask
  2. Open PyCharm project 
